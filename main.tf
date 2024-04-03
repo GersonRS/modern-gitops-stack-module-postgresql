@@ -6,20 +6,20 @@ resource "random_password" "password_secret" {
 resource "kubernetes_namespace" "postgresql_namespace" {
   metadata {
     annotations = {
-      name = var.namespace
+      name = "postgresql"
     }
-    name = var.namespace
+    name = "postgresql"
   }
 }
 
 resource "kubernetes_secret" "postgresql_secret" {
   metadata {
     name      = "postgres-secrets"
-    namespace = var.namespace
+    namespace = "postgresql"
     annotations = {
       "postgresql.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
       "postgresql.v1.k8s.emberstack.com/reflection-allowed"            = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "${var.namespace},processing"
+      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "${"postgresql"},processing"
     }
   }
 
@@ -41,20 +41,20 @@ resource "argocd_project" "this" {
 
   metadata {
     name      = var.destination_cluster != "in-cluster" ? "postgresql-${var.destination_cluster}" : "postgresql"
-    namespace = var.argocd_namespace
+    namespace = "argocd"
     annotations = {
-      "modern-gitops-stack.io/argocd_namespace" = var.argocd_namespace
+      "modern-gitops-stack.io/argocd_namespace" = "argocd"
     }
   }
 
   spec {
     description  = "Postgres application project for cluster ${var.destination_cluster}"
-    source_repos = [var.project_source_repo]
+    source_repos = ["https://github.com/GersonRS/modern-gitops-stack-module-postgresql"]
 
 
     destination {
       name      = var.destination_cluster
-      namespace = var.namespace
+      namespace = "postgresql"
     }
 
     orphaned_resources {
@@ -75,7 +75,7 @@ data "utils_deep_merge_yaml" "values" {
 resource "argocd_application" "this" {
   metadata {
     name      = var.destination_cluster != "in-cluster" ? "postgresql-${var.destination_cluster}" : "postgresql"
-    namespace = var.argocd_namespace
+    namespace = "argocd"
     labels = merge({
       "application" = "postgresql"
       "cluster"     = var.destination_cluster
@@ -93,7 +93,7 @@ resource "argocd_application" "this" {
     project = var.argocd_project == null ? argocd_project.this[0].metadata.0.name : var.argocd_project
 
     source {
-      repo_url        = var.project_source_repo
+      repo_url        = "https://github.com/GersonRS/modern-gitops-stack-module-postgresql"
       path            = "charts/postgresql"
       target_revision = var.target_revision
       helm {
@@ -104,7 +104,7 @@ resource "argocd_application" "this" {
 
     destination {
       name      = var.destination_cluster
-      namespace = var.namespace
+      namespace = "postgresql"
     }
 
     sync_policy {
@@ -146,7 +146,7 @@ resource "null_resource" "this" {
 data "kubernetes_service" "postgresql" {
   metadata {
     name      = "postgresql"
-    namespace = var.namespace
+    namespace = "postgresql"
   }
 
   depends_on = [
