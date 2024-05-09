@@ -1,41 +1,11 @@
-resource "random_password" "password_secret" {
-  length  = 32
-  special = false
-}
-
-resource "kubernetes_namespace" "postgresql_namespace" {
-  metadata {
-    annotations = {
-      name = "postgresql"
-    }
-    name = "postgresql"
-  }
-}
-
-resource "kubernetes_secret" "postgresql_secret" {
-  metadata {
-    name      = "postgres-secrets"
-    namespace = "postgresql"
-    annotations = {
-      "postgresql.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed"            = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "${"postgresql"},processing"
-    }
-  }
-
-  data = {
-    password               = "${resource.random_password.password_secret.result}"
-    postgres-password      = "${resource.random_password.password_secret.result}"
-    replicationPasswordKey = "${resource.random_password.password_secret.result}"
-  }
-
-  depends_on = [kubernetes_namespace.postgresql_namespace]
-}
-
 resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
 
+resource "random_password" "password_secret" {
+  length  = 32
+  special = false
+}
 resource "argocd_project" "this" {
   count = var.argocd_project == null ? 1 : 0
 
@@ -49,7 +19,7 @@ resource "argocd_project" "this" {
 
   spec {
     description  = "Postgres application project for cluster ${var.destination_cluster}"
-    source_repos = ["https://github.com/GersonRS/modern-gitops-stack-module-postgresql"]
+    source_repos = ["https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"]
 
 
     destination {
