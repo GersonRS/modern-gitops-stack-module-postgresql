@@ -131,6 +131,7 @@ resource "argocd_application" "this" {
 
   depends_on = [
     resource.null_resource.dependencies,
+    resource.kubernetes_secret.postgresql_secret,
   ]
 }
 
