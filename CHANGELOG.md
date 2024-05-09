@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.5.0...v2.6.0) (2024-05-09)
+
+
+### 🚀 New Features
+
+* adjust pattern variables and main file ([5b49b15](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/5b49b1523048e053b591b75fd3d841fc3bd57599))
+
+
+### 📚 Documentation
+
+* **terraform-docs:** generate docs and write to README.adoc ([2cf75db](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/2cf75dbef22749b1ebc167fb831b9a68e2b5e329))
+
 ## [2.5.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.4.0...v2.5.0) (2024-05-09)
 
 
