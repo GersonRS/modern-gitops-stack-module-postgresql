@@ -2,6 +2,36 @@ resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
 
+
+resource "kubernetes_namespace" "postgresql_namespace" {
+  metadata {
+    annotations = {
+      name = "postgresql"
+    }
+    name = "postgresql"
+  }
+}
+
+resource "kubernetes_secret" "postgresql_secret" {
+  metadata {
+    name      = "postgresql-secrets"
+    namespace = "postgresql"
+    annotations = {
+      "postgresql.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
+      "postgresql.v1.k8s.emberstack.com/reflection-allowed"            = "true"
+      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "postgresql,processing"
+    }
+  }
+
+  data = {
+    password               = "${resource.random_password.password_secret.result}"
+    postgres-password      = "${resource.random_password.password_secret.result}"
+    replicationPasswordKey = "${resource.random_password.password_secret.result}"
+  }
+
+  depends_on = [kubernetes_namespace.postgresql_namespace]
+}
+
 resource "random_password" "password_secret" {
   length  = 32
   special = false
@@ -101,6 +131,7 @@ resource "argocd_application" "this" {
 
   depends_on = [
     resource.null_resource.dependencies,
+    resource.kubernetes_secret.postgresql_secret,
   ]
 }
 
