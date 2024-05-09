@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.5.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.4.0...v2.5.0) (2024-05-09)
+
+
+### 🚀 New Features
+
+* config init ([ee54857](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/ee54857aa57e6478101d84cbd1268a712d17328a))
+* module modularization ([f89bb85](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/f89bb853d4f386ff46814428a519481b06ff2714))
+* module modularization ([a668591](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/a668591315b538f183e55049e2ee9909e335d9df))
+
 ## [2.4.0](https://github.com/GersonRS/modern-gitops-stack-module-minio/compare/v2.3.0...v2.4.0) (2024-05-01)
 
 
