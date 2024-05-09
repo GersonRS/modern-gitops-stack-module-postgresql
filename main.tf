@@ -6,21 +6,18 @@ resource "random_password" "password_secret" {
   length  = 32
   special = false
 }
+
 resource "argocd_project" "this" {
   count = var.argocd_project == null ? 1 : 0
 
   metadata {
     name      = var.destination_cluster != "in-cluster" ? "postgresql-${var.destination_cluster}" : "postgresql"
     namespace = "argocd"
-    annotations = {
-      "modern-gitops-stack.io/argocd_namespace" = "argocd"
-    }
   }
 
   spec {
-    description  = "Postgres application project for cluster ${var.destination_cluster}"
+    description  = "postgresql application project for cluster ${var.destination_cluster}"
     source_repos = ["https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"]
-
 
     destination {
       name      = var.destination_cluster
@@ -63,7 +60,7 @@ resource "argocd_application" "this" {
     project = var.argocd_project == null ? argocd_project.this[0].metadata.0.name : var.argocd_project
 
     source {
-      repo_url        = "https://github.com/GersonRS/modern-gitops-stack-module-postgresql"
+      repo_url        = "https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"
       path            = "charts/postgresql"
       target_revision = var.target_revision
       helm {
