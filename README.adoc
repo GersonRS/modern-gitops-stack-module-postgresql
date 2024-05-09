@@ -7,6 +7,8 @@ The following requirements are needed by this module:
 
 - [[requirement_argocd]] <<requirement_argocd,argocd>> (>= 5)
 
+- [[requirement_helm]] <<requirement_helm,helm>> (>= 2)
+
 - [[requirement_null]] <<requirement_null,null>> (>= 3)
 
 - [[requirement_random]] <<requirement_random,random>> (>= 3)
@@ -17,13 +19,15 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
 - [[provider_random]] <<provider_random,random>> (>= 3)
+
+- [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
-- [[provider_utils]] <<provider_utils,utils>> (>= 1)
+- [[provider_null]] <<provider_null,null>> (>= 3)
+
+- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>>
 
 === Resources
 
@@ -33,7 +37,8 @@ The following resources are used by this module:
 - https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
-- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.minio_root_secretkey] (resource)
+- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.password_secret] (resource)
+- https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service[kubernetes_service.postgresql] (data source)
 - https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
 
 === Required Inputs
@@ -94,7 +99,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.2.0"`
+Default: `"v2.4.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -152,58 +157,6 @@ Type: `map(string)`
 
 Default: `{}`
 
-==== [[input_config_minio]] <<input_config_minio,config_minio>>
-
-Description: Variable to create buckets and required users and policies.
-
-Type:
-[source,hcl]
-----
-object({
-    policies = optional(list(object({
-      name = string
-      statements = list(object({
-        resources = list(string)
-        actions   = list(string)
-      }))
-    })), [])
-    users = optional(list(object({
-      accessKey = string
-      secretKey = string
-      policy    = string
-    })), [])
-    buckets = optional(list(object({
-      name          = string
-      policy        = optional(string, "none")
-      purge         = optional(bool, false)
-      versioning    = optional(bool, false)
-      objectlocking = optional(bool, false)
-    })), [])
-  })
-----
-
-Default: `{}`
-
-==== [[input_oidc]] <<input_oidc,oidc>>
-
-Description: OIDC configuration to access the MinIO web interface.
-
-Type:
-[source,hcl]
-----
-object({
-    issuer_url              = string
-    oauth_url               = string
-    token_url               = string
-    api_url                 = string
-    client_id               = string
-    client_secret           = string
-    oauth2_proxy_extra_args = optional(list(string), [])
-  })
-----
-
-Default: `null`
-
 === Outputs
 
 The following outputs are exported:
@@ -212,13 +165,21 @@ The following outputs are exported:
 
 Description: ID to pass other modules in order to refer to this module as a dependency.
 
-==== [[output_endpoint]] <<output_endpoint,endpoint>>
+==== [[output_credentials]] <<output_credentials,credentials>>
 
-Description: MinIO endpoint where the buckets are available.
+Description: n/a
 
-==== [[output_minio_root_user_credentials]] <<output_minio_root_user_credentials,minio_root_user_credentials>>
+==== [[output_cluster_dns]] <<output_cluster_dns,cluster_dns>>
 
-Description: The MinIO root user password.
+Description: Postgres cluster dns
+
+==== [[output_cluster_ip]] <<output_cluster_ip,cluster_ip>>
+
+Description: Postgres Cluster IPs
+
+==== [[output_external_ip]] <<output_external_ip,external_ip>>
+
+Description: Postgres External IPs
 // END_TF_DOCS
 
 === Reference in table format 
@@ -233,6 +194,7 @@ Description: The MinIO root user password.
 |===
 |Name |Version
 |[[requirement_argocd]] <<requirement_argocd,argocd>> |>= 5
+|[[requirement_helm]] <<requirement_helm,helm>> |>= 2
 |[[requirement_null]] <<requirement_null,null>> |>= 3
 |[[requirement_random]] <<requirement_random,random>> |>= 3
 |[[requirement_utils]] <<requirement_utils,utils>> |>= 1
@@ -247,6 +209,7 @@ Description: The MinIO root user password.
 |[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
+|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |===
 
 = Resources
@@ -258,7 +221,8 @@ Description: The MinIO root user password.
 |https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
-|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.minio_root_secretkey] |resource
+|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.password_secret] |resource
+|https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service[kubernetes_service.postgresql] |data source
 |https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] |data source
 |===
 
@@ -306,7 +270,7 @@ Description: The MinIO root user password.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.2.0"`
+|`"v2.4.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -359,58 +323,6 @@ object({
 |`{}`
 |no
 
-|[[input_config_minio]] <<input_config_minio,config_minio>>
-|Variable to create buckets and required users and policies.
-|
-
-[source]
-----
-object({
-    policies = optional(list(object({
-      name = string
-      statements = list(object({
-        resources = list(string)
-        actions   = list(string)
-      }))
-    })), [])
-    users = optional(list(object({
-      accessKey = string
-      secretKey = string
-      policy    = string
-    })), [])
-    buckets = optional(list(object({
-      name          = string
-      policy        = optional(string, "none")
-      purge         = optional(bool, false)
-      versioning    = optional(bool, false)
-      objectlocking = optional(bool, false)
-    })), [])
-  })
-----
-
-|`{}`
-|no
-
-|[[input_oidc]] <<input_oidc,oidc>>
-|OIDC configuration to access the MinIO web interface.
-|
-
-[source]
-----
-object({
-    issuer_url              = string
-    oauth_url               = string
-    token_url               = string
-    api_url                 = string
-    client_id               = string
-    client_secret           = string
-    oauth2_proxy_extra_args = optional(list(string), [])
-  })
-----
-
-|`null`
-|no
-
 |===
 
 = Outputs
@@ -419,8 +331,10 @@ object({
 |===
 |Name |Description
 |[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
-|[[output_endpoint]] <<output_endpoint,endpoint>> |MinIO endpoint where the buckets are available.
-|[[output_minio_root_user_credentials]] <<output_minio_root_user_credentials,minio_root_user_credentials>> |The MinIO root user password.
+|[[output_credentials]] <<output_credentials,credentials>> |n/a
+|[[output_cluster_dns]] <<output_cluster_dns,cluster_dns>> |Postgres cluster dns
+|[[output_cluster_ip]] <<output_cluster_ip,cluster_ip>> |Postgres Cluster IPs
+|[[output_external_ip]] <<output_external_ip,external_ip>> |Postgres External IPs
 |===
 // END_TF_TABLES
 ====
