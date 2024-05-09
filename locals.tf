@@ -17,7 +17,7 @@ locals {
           auth = {
             username       = local.credentials.user
             database       = "keycloak"
-            existingSecret = "postgres-secrets"
+            existingSecret = "postgresql-secrets"
             secretKeys = {
               adminPasswordKey       = "postgres-password"
               userPasswordKey        = "password"
