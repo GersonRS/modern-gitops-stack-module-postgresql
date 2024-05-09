@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.6.0...v2.7.0) (2024-05-09)
+
+
+### 🚀 New Features
+
+* add new argo application dependency ([4d300be](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/4d300be1d7aef892543dc37c1508c70839ea49a7))
+* add postgres secrets and adjust configurations ([c7e237a](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/c7e237a434113683b3c846d1b64c04d46068339c))
+
+
+### 📚 Documentation
+
+* **terraform-docs:** generate docs and write to README.adoc ([9e1d04c](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/9e1d04c988ee3d5cb2e6b386bc849c50e91b0d04))
+* **terraform-docs:** generate docs and write to README.adoc ([50cb0ee](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/50cb0ee4372382dc12d4e5791706e155d228734f))
+
 ## [2.6.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.5.0...v2.6.0) (2024-05-09)
 
 
