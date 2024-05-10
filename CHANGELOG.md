@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.7.0...v2.8.0) (2024-05-10)
+
+
+### 🚀 New Features
+
+* adjust cluster_dns output ([5968253](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/5968253480e8f68eb0331be8d5ead3b8ca30e175))
+
+
+### 📚 Documentation
+
+* **terraform-docs:** generate docs and write to README.adoc ([247371f](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/247371f2c430d69cdeadad8977212d321bb71a3f))
+
 ## [2.7.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.6.0...v2.7.0) (2024-05-09)
 
 
