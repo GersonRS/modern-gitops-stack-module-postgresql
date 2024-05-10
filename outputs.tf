@@ -9,7 +9,7 @@ output "credentials" {
 
 output "cluster_dns" {
   description = "Postgres cluster dns"
-  value       = "postgresql.database.svc.cluster.local"
+  value       = "postgresql.postgresql.svc.cluster.local"
 }
 output "cluster_ip" {
   description = "Postgres Cluster IPs"
