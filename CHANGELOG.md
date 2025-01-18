@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.0...v2.8.1) (2025-01-18)
+
+
+### 🔥 Bug Fixes
+
+* fix argos ([a66926d](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/a66926d74075fd6175901a94608e133069c56d09))
+
 ## [2.8.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.7.0...v2.8.0) (2024-05-10)
 
 
