@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.2](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.1...v2.8.2) (2025-02-08)
+
+
+### ⌨️ Code Refactoring
+
+* adjust workflows ([92e7ab0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/92e7ab071485de4a0e39174a22ae5496c686d922))
+* try adjust code 5 ([75b5023](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/75b502389fdf17b83e13b1cf3491355f0d147a2b))
+
 ## [2.8.1](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.0...v2.8.1) (2025-01-18)
 
 
