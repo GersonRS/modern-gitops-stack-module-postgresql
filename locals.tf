@@ -4,6 +4,7 @@ locals {
     user     = "moderngitopsadmin"
     password = resource.random_password.password_secret.result
   }
+  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store", "metastore"], var.databases)
   helm_values = [{
     postgresql = {
       volumePermissions = {
@@ -33,12 +34,9 @@ locals {
         initdb = {
           scripts = {
             "init.sql" = <<-EOT
-              CREATE DATABASE airflow;
-              CREATE DATABASE jupyterhub;
-              CREATE DATABASE keycloak;
-              CREATE DATABASE mlflow;
-              CREATE DATABASE curated;
-              CREATE DATABASE feature_store;
+              %{for db in local.databases~}
+CREATE DATABASE ${db};
+              %{endfor~}
             EOT
           }
         }
