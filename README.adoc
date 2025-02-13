@@ -17,8 +17,6 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>>
 
 - [[provider_random]] <<provider_random,random>> (>= 3)
@@ -26,6 +24,8 @@ The following providers are used by this module:
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 6)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -99,7 +99,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v2.8.2"`
+Default: `"v2.9.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -156,6 +156,14 @@ Description: IDs of the other modules on which this module depends on.
 Type: `map(string)`
 
 Default: `{}`
+
+==== [[input_databases]] <<input_databases,databases>>
+
+Description: List databases aditional
+
+Type: `list(string)`
+
+Default: `[]`
 
 === Outputs
 
@@ -271,7 +279,7 @@ Description: Postgres External IPs
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v2.8.2"`
+|`"v2.9.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -322,6 +330,12 @@ object({
 |IDs of the other modules on which this module depends on.
 |`map(string)`
 |`{}`
+|no
+
+|[[input_databases]] <<input_databases,databases>>
+|List databases aditional
+|`list(string)`
+|`[]`
 |no
 
 |===
