@@ -84,3 +84,9 @@ variable "dependency_ids" {
 #######################
 ## Module variables
 #######################
+
+variable "databases" {
+  description = "List databases aditional"
+  type        = list(string)
+  default     = []
+}
