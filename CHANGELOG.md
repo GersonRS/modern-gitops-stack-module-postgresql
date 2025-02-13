@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.9.0...v2.10.0) (2025-02-13)
+
+
+### 🚀 New Features
+
+* add new user ([edd33ee](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/edd33ee1344e29f4895317e7d1e6bbe31b3a8356))
+* add new user ([dabe365](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/dabe3657a307dbfbadd3894f7009c795b938dc02))
+
 ## [2.9.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.2...v2.9.0) (2025-02-13)
 
 
