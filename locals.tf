@@ -32,12 +32,14 @@ locals {
       }
       primary = {
         initdb = {
+          user     = "${local.credentials.admin}"
+          password = "${local.credentials.password}"
           scripts = {
             "init.sql" = <<-EOT
 %{for db in local.databases~}
 CREATE DATABASE ${db};
 %{endfor~}
-CREATE USER ${local.credentials.user}hive WITH PASSWORD 'md5${md5(local.credentials.password)}${local.credentials.user}hive';
+CREATE USER ${local.credentials.user}hive WITH PASSWORD 'md5${md5("${local.credentials.password}${local.credentials.user}hive")}';
 CREATE DATABASE metastore OWNER ${local.credentials.user}hive;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.user}hive;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.user}hive;
