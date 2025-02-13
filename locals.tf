@@ -4,14 +4,14 @@ locals {
     user     = "moderngitopsadmin"
     password = resource.random_password.password_secret.result
   }
-  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store", "metastore"], var.databases)
+  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store"], var.databases)
   helm_values = [{
     postgresql = {
       volumePermissions = {
         enabled = true
       }
       metrics = {
-        enabled = false
+        enabled = var.enable_service_monitor
       }
       global = {
         postgresql = {
@@ -34,9 +34,15 @@ locals {
         initdb = {
           scripts = {
             "init.sql" = <<-EOT
-              %{for db in local.databases~}
+%{for db in local.databases~}
 CREATE DATABASE ${db};
-              %{endfor~}
+%{endfor~}
+CREATE USER ${local.credentials.user}hive WITH PASSWORD 'md5${md5(local.credentials.password)}${local.credentials.user}hive';
+CREATE DATABASE metastore OWNER ${local.credentials.user}hive;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.user}hive;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.user}hive;
+GRANT USAGE ON SCHEMA public TO ${local.credentials.user}hive;
+GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.user}hive;
             EOT
           }
         }
