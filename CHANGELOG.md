@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.2...v2.9.0) (2025-02-13)
+
+
+### 🚀 New Features
+
+* add new variable to include new databases ([4495302](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/44953025eddeb6157d64cf86c5bf1fa3de965c6a))
+
 ## [2.8.2](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.8.1...v2.8.2) (2025-02-08)
 
 
