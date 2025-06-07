@@ -2,6 +2,24 @@
 ## Standard variables
 #######################
 
+variable "project_source_repo" {
+  description = "Repository allowed to be scraped in this AppProject."
+  type        = string
+  default     = "https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"
+}
+
+variable "namespace" {
+  description = "Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist."
+  type        = string
+  default     = "database"
+}
+
+variable "argocd_namespace" {
+  description = "Namespace used by Argo CD where the Application and AppProject resources should be created."
+  type        = string
+  default     = "argocd"
+}
+
 variable "cluster_name" {
   description = "Name given to the cluster. Value used for naming some the resources created by the module."
   type        = string
@@ -79,6 +97,32 @@ variable "dependency_ids" {
   description = "IDs of the other modules on which this module depends on."
   type        = map(string)
   default     = {}
+}
+
+
+variable "replicas" {
+  description = "Number of replicas for module"
+  type        = number
+  default     = 1
+}
+
+variable "resources" {
+  description = <<-EOT
+    Resource limits and requests for module components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+
+    IMPORTANT: These are not production values. You should always adjust them to your needs.
+  EOT
+  type = object({
+    requests = optional(object({
+      cpu    = optional(string, "100m")
+      memory = optional(string, "256Mi")
+    }), {})
+    limits = optional(object({
+      cpu    = optional(string, "1000m")
+      memory = optional(string, "512Mi")
+    }), {})
+  })
+  default = {}
 }
 
 #######################

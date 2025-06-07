@@ -4,7 +4,7 @@ locals {
     user     = "moderngitopsadmin"
     password = resource.random_password.password_secret.result
   }
-  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store"], var.databases)
+  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store", "litellm"], var.databases)
   helm_values = [{
     postgresql = {
       volumePermissions = {
@@ -52,7 +52,11 @@ GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.user}hive;
           type = "LoadBalancer"
         }
         persistence = {
-          size = "20Gi"
+          size = "10Gi"
+        }
+        resources = {
+          requests = { for k, v in var.resources.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.limits : k => v if v != null }
         }
       }
     }
