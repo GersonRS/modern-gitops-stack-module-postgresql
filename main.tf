@@ -26,9 +26,11 @@ resource "kubernetes_secret" "postgresql_secret" {
   }
 
   data = {
-    password               = "${resource.random_password.password_secret.result}"
-    postgres-password      = "${resource.random_password.password_secret.result}"
-    replicationPasswordKey = "${resource.random_password.password_secret.result}"
+    admin                  = "${local.credentials.admin}"
+    username               = "${local.credentials.user}"
+    password               = "${local.credentials.password}"
+    postgres-password      = "${local.credentials.password}"
+    replicationPasswordKey = "${local.credentials.password}"
   }
 
   depends_on = [kubernetes_namespace.postgresql_namespace]
@@ -37,6 +39,9 @@ resource "kubernetes_secret" "postgresql_secret" {
 resource "random_password" "password_secret" {
   length  = 32
   special = false
+  depends_on = [
+    resource.null_resource.dependencies
+  ]
 }
 
 resource "argocd_project" "this" {
