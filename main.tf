@@ -21,7 +21,7 @@ resource "kubernetes_secret" "postgresql_secret" {
     annotations = {
       "postgresql.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
       "postgresql.v1.k8s.emberstack.com/reflection-allowed"            = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "postgresql,processing"
+      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "${var.namespace},processing,mlops"
     }
   }
 
