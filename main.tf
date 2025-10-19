@@ -5,9 +5,9 @@ resource "null_resource" "dependencies" {
 resource "kubernetes_namespace" "postgresql_namespace" {
   metadata {
     annotations = {
-      name = "postgresql"
+      name = var.namespace
     }
-    name = "postgresql"
+    name = var.namespace
   }
   depends_on = [
     resource.null_resource.dependencies
@@ -32,7 +32,7 @@ resource "kubernetes_secret" "postgresql_secret" {
     replicationPasswordKey = "${resource.random_password.password_secret.result}"
   }
 
-  depends_on = [kubernetes_namespace.postgresql_namespace]
+  depends_on = [resource.kubernetes_namespace.postgresql_namespace]
 }
 
 resource "random_password" "password_secret" {

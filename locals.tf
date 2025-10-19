@@ -8,9 +8,20 @@ locals {
     postgresql = {
       volumePermissions = {
         enabled = true
+        image = {
+          repository = "bitnamilegacy/os-shell"
+        }
       }
       metrics = {
         enabled = var.enable_service_monitor
+        serviceMonitor = {
+          enabled       = var.enable_service_monitor
+          interval      = "10s"
+          scrapeTimeout = "5s"
+        }
+        image = {
+          repository = "bitnamilegacy/postgres-exporter"
+        }
       }
       global = {
         postgresql = {
@@ -27,7 +38,8 @@ locals {
         }
       }
       image = {
-        debug = var.debug
+        repository = "bitnamilegacy/postgresql"
+        debug      = var.debug
       }
       primary = {
         initdb = {
