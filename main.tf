@@ -19,18 +19,17 @@ resource "kubernetes_secret" "postgresql_secret" {
     name      = "postgresql-secrets"
     namespace = var.namespace
     annotations = {
-      "postgresql.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed"            = "true"
-      "postgresql.v1.k8s.emberstack.com/reflection-allowed-namespaces" = "${var.namespace},processing,mlops"
+      "reflector.v1.k8s.emberstack.com/reflection-auto-enabled"       = "true"
+      "reflector.v1.k8s.emberstack.com/reflection-allowed"            = "true"
+      "reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces" = join(",", concat([var.namespace], var.reflection_namespaces))
     }
   }
 
   data = {
-    admin                  = "${local.credentials.admin}"
-    username               = "${local.credentials.user}"
-    password               = "${local.credentials.password}"
-    postgres-password      = "${local.credentials.password}"
-    replicationPasswordKey = "${local.credentials.password}"
+    username               = "${local.credentials.username}"
+    password               = "${resource.random_password.password_secret.result}"
+    postgres-password      = "${resource.random_password.password_secret.result}"
+    replicationPasswordKey = "${resource.random_password.password_secret.result}"
   }
 
   depends_on = [kubernetes_namespace.postgresql_namespace]
@@ -154,21 +153,6 @@ data "kubernetes_service" "postgresql" {
     namespace = var.namespace
   }
 
-  depends_on = [
-    null_resource.this
-  ]
-}
-
-resource "random_password" "airflow_fernetKey" {
-  length  = 32
-  special = false
-  depends_on = [
-    null_resource.this
-  ]
-}
-resource "random_password" "litellm_salt_key" {
-  length  = 32
-  special = false
   depends_on = [
     null_resource.this
   ]

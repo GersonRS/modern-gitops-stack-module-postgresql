@@ -1,7 +1,6 @@
 locals {
   credentials = {
-    admin    = "postgres"
-    user     = "moderngitopsadmin"
+    username = "moderngitopsadmin"
     password = resource.random_password.password_secret.result
   }
   databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store", "litellm"], var.databases)
@@ -16,7 +15,7 @@ locals {
       global = {
         postgresql = {
           auth = {
-            username       = local.credentials.user
+            username       = local.credentials.username
             database       = "keycloak"
             existingSecret = "postgresql-secrets"
             secretKeys = {
@@ -28,11 +27,11 @@ locals {
         }
       }
       image = {
-        debug = true
+        debug = var.debug
       }
       primary = {
         initdb = {
-          user     = "${local.credentials.admin}"
+          user     = "${local.credentials.username}"
           password = "${local.credentials.password}"
           scripts = {
             "init.sql" = <<-EOT
@@ -49,10 +48,10 @@ GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.user}hive;
           }
         }
         service = {
-          type = "LoadBalancer"
+          type = "ClusterIP"
         }
         persistence = {
-          size = "10Gi"
+          size = "${var.persistence_size}Gi"
         }
         resources = {
           requests = { for k, v in var.resources.requests : k => v if v != null }

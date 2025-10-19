@@ -134,3 +134,19 @@ variable "databases" {
   type        = list(string)
   default     = []
 }
+variable "persistence_size" {
+  description = "Size of the persistent volume claim"
+  type        = number
+  default     = 10
+}
+variable "debug" {
+  description = "Enable debug mode"
+  type        = bool
+  default     = false
+}
+
+variable "reflection_namespaces" {
+  description = "Namespaces where the replication secrets should be reflected."
+  type        = list(string)
+  default     = []
+}
