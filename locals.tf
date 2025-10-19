@@ -38,12 +38,12 @@ locals {
 %{for db in local.databases~}
 CREATE DATABASE ${db};
 %{endfor~}
-CREATE USER ${local.credentials.user}hive WITH PASSWORD 'md5${md5("${local.credentials.password}${local.credentials.user}hive")}';
-CREATE DATABASE metastore OWNER ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.user}hive;
-GRANT USAGE ON SCHEMA public TO ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.user}hive;
+CREATE USER ${local.credentials.username}hive WITH PASSWORD 'md5${md5("${local.credentials.password}${local.credentials.username}hive")}';
+CREATE DATABASE metastore OWNER ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.username}hive;
+GRANT USAGE ON SCHEMA public TO ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.username}hive;
             EOT
           }
         }
