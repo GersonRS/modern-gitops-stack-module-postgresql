@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.11.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.10.0...v2.11.0) (2025-10-20)
+
+
+### 🚀 New Features
+
+* add copilot instructions for AI coding agents ([d33694e](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/d33694e18625f7c9fa0981c54253f6fa6e778a09))
+* add resources and new variables ([d75324a](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/d75324ab9d6bcd86189a639f281037d95bb26d37))
+* add user and admin values in postgres secret ([4008be1](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/4008be1d7550fbae7521f795211df2c3693b3bf5))
+* add validation ([7108a95](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/7108a9546849b887bc913207b03e268e6843eb88))
+* adjust namespace reflaction ([fd28b84](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/fd28b84a83a3c6aeb89668a4ceb26b07b3d36d22))
+* enhance PostgreSQL configuration with Hive metastore support ([28dde3c](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/28dde3c4413f4707d95d8908b8f2da08115090f1))
+* Enhanced PostgreSQL configuration with AI guidance and multi-database support ([99c42fc](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/99c42fca21fb4c1980ca245fb3ceba1a3ad7fdfc))
+* update chart ([e766068](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/e766068a5300fb793e6ac830ec7e7b7a8f957bf3))
+* update chart ([80b1243](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/80b1243f344afd5fed33d6f4ea91c0cc182d844f))
+* update PostgreSQL configuration and infrastructure ([97078b1](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/97078b1296376c6e839ec0d9147dd85cefb46704))
+* update PostgreSQL module outputs ([b0ba7e2](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/b0ba7e297e89f6e9d982b0949fa736c02c532dca))
+
+
+### ⌨️ Code Refactoring
+
+* refine PostgreSQL module outputs ([8d13295](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/8d1329510fe0113945289cd246669171cfd7e7cf))
+
 ## [2.10.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.9.0...v2.10.0) (2025-02-13)
 
 

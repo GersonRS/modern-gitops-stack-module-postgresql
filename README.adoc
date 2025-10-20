@@ -61,6 +61,30 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+==== [[input_project_source_repo]] <<input_project_source_repo,project_source_repo>>
+
+Description: Repository allowed to be scraped in this AppProject.
+
+Type: `string`
+
+Default: `"https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"`
+
+==== [[input_namespace]] <<input_namespace,namespace>>
+
+Description: Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
+
+Type: `string`
+
+Default: `"database"`
+
+==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+
+Description: Namespace used by Argo CD where the Application and AppProject resources should be created.
+
+Type: `string`
+
+Default: `"argocd"`
+
 ==== [[input_subdomain]] <<input_subdomain,subdomain>>
 
 Description: Subdomain of the cluster. Value used for the ingress' URL of the application.
@@ -99,7 +123,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v2.10.0"`
+Default: `"v2.11.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -157,9 +181,64 @@ Type: `map(string)`
 
 Default: `{}`
 
+==== [[input_replicas]] <<input_replicas,replicas>>
+
+Description: Number of replicas for module
+
+Type: `number`
+
+Default: `1`
+
+==== [[input_resources]] <<input_resources,resources>>
+
+Description: Resource limits and requests for module components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+
+IMPORTANT: These are not production values. You should always adjust them to your needs.
+
+Type:
+[source,hcl]
+----
+object({
+    requests = optional(object({
+      cpu    = optional(string, "100m")
+      memory = optional(string, "256Mi")
+    }), {})
+    limits = optional(object({
+      cpu    = optional(string, "1000m")
+      memory = optional(string, "512Mi")
+    }), {})
+  })
+----
+
+Default: `{}`
+
 ==== [[input_databases]] <<input_databases,databases>>
 
 Description: List databases aditional
+
+Type: `list(string)`
+
+Default: `[]`
+
+==== [[input_persistence_size]] <<input_persistence_size,persistence_size>>
+
+Description: Size of the persistent volume claim
+
+Type: `number`
+
+Default: `5`
+
+==== [[input_debug]] <<input_debug,debug>>
+
+Description: Enable debug mode
+
+Type: `bool`
+
+Default: `false`
+
+==== [[input_reflection_namespaces]] <<input_reflection_namespaces,reflection_namespaces>>
+
+Description: Namespaces where the replication secrets should be reflected.
 
 Type: `list(string)`
 
@@ -184,10 +263,6 @@ Description: Postgres cluster dns
 ==== [[output_cluster_ip]] <<output_cluster_ip,cluster_ip>>
 
 Description: Postgres Cluster IPs
-
-==== [[output_external_ip]] <<output_external_ip,external_ip>>
-
-Description: Postgres External IPs
 // END_TF_DOCS
 
 === Reference in table format 
@@ -214,8 +289,8 @@ Description: Postgres External IPs
 |Name |Version
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |[[provider_random]] <<provider_random,random>> |>= 3
-|[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 6
+|[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_null]] <<provider_null,null>> |>= 3
 |===
 
@@ -240,6 +315,24 @@ Description: Postgres External IPs
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
+|[[input_project_source_repo]] <<input_project_source_repo,project_source_repo>>
+|Repository allowed to be scraped in this AppProject.
+|`string`
+|`"https://github.com/GersonRS/modern-gitops-stack-module-postgresql.git"`
+|no
+
+|[[input_namespace]] <<input_namespace,namespace>>
+|Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
+|`string`
+|`"database"`
+|no
+
+|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+|Namespace used by Argo CD where the Application and AppProject resources should be created.
+|`string`
+|`"argocd"`
+|no
+
 |[[input_cluster_name]] <<input_cluster_name,cluster_name>>
 |Name given to the cluster. Value used for naming some the resources created by the module.
 |`string`
@@ -279,7 +372,7 @@ Description: Postgres External IPs
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v2.10.0"`
+|`"v2.11.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -332,8 +425,56 @@ object({
 |`{}`
 |no
 
+|[[input_replicas]] <<input_replicas,replicas>>
+|Number of replicas for module
+|`number`
+|`1`
+|no
+
+|[[input_resources]] <<input_resources,resources>>
+|Resource limits and requests for module components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+
+IMPORTANT: These are not production values. You should always adjust them to your needs.
+
+|
+
+[source]
+----
+object({
+    requests = optional(object({
+      cpu    = optional(string, "100m")
+      memory = optional(string, "256Mi")
+    }), {})
+    limits = optional(object({
+      cpu    = optional(string, "1000m")
+      memory = optional(string, "512Mi")
+    }), {})
+  })
+----
+
+|`{}`
+|no
+
 |[[input_databases]] <<input_databases,databases>>
 |List databases aditional
+|`list(string)`
+|`[]`
+|no
+
+|[[input_persistence_size]] <<input_persistence_size,persistence_size>>
+|Size of the persistent volume claim
+|`number`
+|`5`
+|no
+
+|[[input_debug]] <<input_debug,debug>>
+|Enable debug mode
+|`bool`
+|`false`
+|no
+
+|[[input_reflection_namespaces]] <<input_reflection_namespaces,reflection_namespaces>>
+|Namespaces where the replication secrets should be reflected.
 |`list(string)`
 |`[]`
 |no
@@ -349,7 +490,6 @@ object({
 |[[output_credentials]] <<output_credentials,credentials>> |n/a
 |[[output_cluster_dns]] <<output_cluster_dns,cluster_dns>> |Postgres cluster dns
 |[[output_cluster_ip]] <<output_cluster_ip,cluster_ip>> |Postgres Cluster IPs
-|[[output_external_ip]] <<output_external_ip,external_ip>> |Postgres External IPs
 |===
 // END_TF_TABLES
 ====
