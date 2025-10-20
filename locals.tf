@@ -1,22 +1,32 @@
 locals {
   credentials = {
-    admin    = "postgres"
-    user     = "moderngitopsadmin"
+    username = "moderngitopsadmin"
     password = resource.random_password.password_secret.result
   }
-  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store"], var.databases)
+  databases = concat(["airflow", "jupyterhub", "mlflow", "curated", "feature_store", "litellm"], var.databases)
   helm_values = [{
     postgresql = {
       volumePermissions = {
         enabled = true
+        image = {
+          repository = "bitnamilegacy/os-shell"
+        }
       }
       metrics = {
         enabled = var.enable_service_monitor
+        serviceMonitor = {
+          enabled       = var.enable_service_monitor
+          interval      = "10s"
+          scrapeTimeout = "5s"
+        }
+        image = {
+          repository = "bitnamilegacy/postgres-exporter"
+        }
       }
       global = {
         postgresql = {
           auth = {
-            username       = local.credentials.user
+            username       = local.credentials.username
             database       = "keycloak"
             existingSecret = "postgresql-secrets"
             secretKeys = {
@@ -28,31 +38,36 @@ locals {
         }
       }
       image = {
-        debug = true
+        repository = "bitnamilegacy/postgresql"
+        debug      = var.debug
       }
       primary = {
         initdb = {
-          user     = "${local.credentials.admin}"
+          user     = "${local.credentials.username}"
           password = "${local.credentials.password}"
           scripts = {
             "init.sql" = <<-EOT
 %{for db in local.databases~}
 CREATE DATABASE ${db};
 %{endfor~}
-CREATE USER ${local.credentials.user}hive WITH PASSWORD 'md5${md5("${local.credentials.password}${local.credentials.user}hive")}';
-CREATE DATABASE metastore OWNER ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.user}hive;
-GRANT USAGE ON SCHEMA public TO ${local.credentials.user}hive;
-GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.user}hive;
+CREATE USER ${local.credentials.username}hive WITH PASSWORD 'md5${md5("${local.credentials.password}${local.credentials.username}hive")}';
+CREATE DATABASE metastore OWNER ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${local.credentials.username}hive;
+GRANT USAGE ON SCHEMA public TO ${local.credentials.username}hive;
+GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.username}hive;
             EOT
           }
         }
         service = {
-          type = "LoadBalancer"
+          type = "ClusterIP"
         }
         persistence = {
-          size = "20Gi"
+          size = "${var.persistence_size}Gi"
+        }
+        resources = {
+          requests = { for k, v in var.resources.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.limits : k => v if v != null }
         }
       }
     }
