@@ -137,7 +137,11 @@ variable "databases" {
 variable "persistence_size" {
   description = "Size of the persistent volume claim"
   type        = number
-  default     = 10
+  default     = 5
+  validation {
+    condition     = var.persistence_size >= 5
+    error_message = "O persistence_size não pode ser menor que 5"
+  }
 }
 variable "debug" {
   description = "Enable debug mode"
