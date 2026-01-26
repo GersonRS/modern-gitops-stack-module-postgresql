@@ -2,7 +2,7 @@ resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
 
-resource "kubernetes_namespace" "postgresql_namespace" {
+resource "kubernetes_namespace_v1" "postgresql_namespace" {
   metadata {
     annotations = {
       name = var.namespace
@@ -14,7 +14,7 @@ resource "kubernetes_namespace" "postgresql_namespace" {
   ]
 }
 
-resource "kubernetes_secret" "postgresql_secret" {
+resource "kubernetes_secret_v1" "postgresql_secret" {
   metadata {
     name      = "postgresql-secrets"
     namespace = var.namespace
@@ -32,7 +32,7 @@ resource "kubernetes_secret" "postgresql_secret" {
     replicationPasswordKey = "${resource.random_password.password_secret.result}"
   }
 
-  depends_on = [resource.kubernetes_namespace.postgresql_namespace]
+  depends_on = [resource.kubernetes_namespace_v1.postgresql_namespace]
 }
 
 resource "random_password" "password_secret" {
@@ -137,7 +137,7 @@ resource "argocd_application" "this" {
 
   depends_on = [
     resource.null_resource.dependencies,
-    resource.kubernetes_secret.postgresql_secret,
+    resource.kubernetes_secret_v1.postgresql_secret,
   ]
 }
 
@@ -147,7 +147,7 @@ resource "null_resource" "this" {
   ]
 }
 
-data "kubernetes_service" "postgresql" {
+data "kubernetes_service_v1" "postgresql" {
   metadata {
     name      = "postgresql"
     namespace = var.namespace
