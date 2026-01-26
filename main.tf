@@ -14,7 +14,7 @@ resource "kubernetes_namespace_v1" "postgresql_namespace" {
   ]
 }
 
-resource "kubernetes_secret" "postgresql_secret" {
+resource "kubernetes_secret_v1" "postgresql_secret" {
   metadata {
     name      = "postgresql-secrets"
     namespace = var.namespace
@@ -137,7 +137,7 @@ resource "argocd_application" "this" {
 
   depends_on = [
     resource.null_resource.dependencies,
-    resource.kubernetes_secret.postgresql_secret,
+    resource.kubernetes_secret_v1.postgresql_secret,
   ]
 }
 
