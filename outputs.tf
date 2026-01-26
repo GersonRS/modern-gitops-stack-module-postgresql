@@ -13,5 +13,5 @@ output "cluster_dns" {
 }
 output "cluster_ip" {
   description = "Postgres Cluster IPs"
-  value       = data.kubernetes_service.postgresql.spec[0].cluster_ip
+  value       = data.kubernetes_service_v1.postgresql.spec[0].cluster_ip
 }
