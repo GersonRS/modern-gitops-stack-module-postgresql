@@ -1,4 +1,4 @@
-{{- if index .Values "postgresql" "metrics" "servicemonitor" "enabled" }}
+{{- if index .Values "postgresql" "metrics" "serviceMonitor" "enabled" }}
 {{- $files := .Files.Glob "dashboards/*.json" }}
 {{- if $files }}
 apiVersion: v1
