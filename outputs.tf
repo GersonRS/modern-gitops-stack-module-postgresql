@@ -4,7 +4,8 @@ output "id" {
 }
 
 output "credentials" {
-  value = local.credentials
+  value     = local.credentials
+  sensitive = true
 }
 
 output "cluster_dns" {
