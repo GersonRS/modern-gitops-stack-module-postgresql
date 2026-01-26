@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.12.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.11.0...v2.12.0) (2026-01-26)
+
+
+### 🚀 New Features
+
+* add dashboad ([31d0584](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/31d0584326264423373b09d2f4ffe7c118063563))
+* adjust repo ([4320bba](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/4320bba57bd557abaad540b0fc2b4da21fcb9c59))
+* adjust workflows ([338d390](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/338d390b5845d1aeea5c04a11dad6a8d18495f55))
+* adjust workflows ([fb66e7f](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/fb66e7fed42335b96ec5bdb659bc3b2520b1bbca))
+
+
+### 🔥 Bug Fixes
+
+* corrige nome da propriedade serviceMonitor no template grafana-dashboard ([00964f5](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/00964f52ab7316d54c8ce4a319358e0d043275a2))
+* fix some kind erros with graphana dashboard ([1f6d019](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/1f6d019edcd15cf38b6c27ef03a8c48d40704884))
+
+
+### ⌨️ Code Refactoring
+
+* add sensitive config ([8701eeb](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/8701eebfe58ef46e83052c9d580b61a4eba71f11))
+* adjust code ([db3799f](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/db3799fcd11a714a12bcbbc9624fbf4a9763fa5c))
+* adjust code again ([861e6b5](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/commit/861e6b5ba1995db376f763a96eae5cfccefd7102))
+
 ## [2.11.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.10.0...v2.11.0) (2025-10-20)
 
 
