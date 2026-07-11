@@ -5,7 +5,8 @@ resource "null_resource" "dependencies" {
 resource "kubernetes_namespace_v1" "postgresql_namespace" {
   metadata {
     annotations = {
-      name = var.namespace
+      name                      = var.namespace
+      "istio.io/dataplane-mode" = "ambient"
     }
     name = var.namespace
   }
