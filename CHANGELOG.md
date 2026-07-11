@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.13.0](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/compare/v2.12.0...v2.13.0) (2026-07-11)
+
+
+### 🚀 New Features
+
+* add namespace_labels variable to all modules ([51e0a9a](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/commit/51e0a9a432957e4ae12178386754cdf2ec2cae1b))
+* add namespace_labels variable to all modules ([348a94c](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/commit/348a94cd19b4112b6e48e14efd2eb94b92b75e61))
+
 ## [2.12.0](https://github.com/GersonRS/modern-gitops-stack-module-postgresql/compare/v2.11.0...v2.12.0) (2026-01-26)
 
 
