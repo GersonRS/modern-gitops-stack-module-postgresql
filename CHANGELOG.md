@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.15.0](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/compare/v2.14.0...v2.15.0) (2026-07-13)
+
+
+### 🚀 New Features
+
+* adjust code ([1a4540b](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/commit/1a4540b78f295c09bca1d4b73187732ee2c555bb))
+* adjust code ([074b2d8](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/commit/074b2d8b8ab758f02213c153a455f904171546db))
+
 ## [2.14.0](https://github.com/gersonrs/modern-gitops-stack-module-postgresql/compare/v2.13.0...v2.14.0) (2026-07-12)
 
 
