@@ -69,6 +69,20 @@ GRANT ALL PRIVILEGES ON DATABASE metastore TO ${local.credentials.username}hive;
           requests = { for k, v in var.resources.requests : k => v if v != null }
           limits   = { for k, v in var.resources.limits : k => v if v != null }
         }
+        # Istio ambient mode tunnels mesh traffic between pods over HBONE on
+        # port 15008. NetworkPolicy is enforced on the host (outside the pod),
+        # so a policy restricting ingress to only the app port (5432) blocks
+        # the HBONE-encapsulated connection before it ever reaches the pod.
+        # See: https://istio.io/latest/docs/ambient/usage/networkpolicy/
+        networkPolicy = {
+          extraIngress = [
+            {
+              ports = [
+                { port = 15008, protocol = "TCP" }
+              ]
+            }
+          ]
+        }
       }
     }
   }]
